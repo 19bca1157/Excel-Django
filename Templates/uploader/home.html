@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Uploaded Excel Files</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-blue-600 text-white py-4 shadow-md">
+        <div class="container mx-auto text-center">
+            <h1 class="text-2xl font-bold">Uploaded Excel Files</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-8 px-4">
+        <section class="bg-white shadow-lg rounded-lg p-6">
+            <form method="get" class="mb-6 flex flex-wrap items-center gap-4">
+                <label for="date" class="text-gray-700 font-medium">Filter by Date:</label>
+                <input 
+                    type="date" 
+                    name="date" 
+                    value="{{ date_filter }}" 
+                    class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                >
+                <button 
+                    type="submit" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Filter
+                </button>
+            </form>
+
+            <ul class="divide-y divide-gray-200">
+                {% for file in files %}
+                    <li class="py-4 flex items-center justify-between">
+                        <a 
+                            href="{% url 'view_file' file.id %}" 
+                            class="text-blue-600 font-medium hover:underline">
+                            {{ file.file.name }}
+                        </a>
+                        <span class="text-gray-500 text-sm">
+                            Uploaded: {{ file.uploaded_at|date:"Y-m-d H:i" }}
+                        </span>
+                    </li>
+                {% empty %}
+                    <li class="py-4 text-center text-gray-500">No files found.</li>
+                {% endfor %}
+            </ul>
+
+            <div class="mt-6 text-center">
+                <a 
+                    href="{% url 'upload_file' %}" 
+                    class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+                    Upload a New File
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">© 2024 Your Project Name. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
